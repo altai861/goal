@@ -8,6 +8,32 @@
   </head>
   <body>
     <div id="app"></div>
+    <div id="deleteListModal" class="modal">
+      <div class="modal-content">
+        <p>Are you sure you want to delete this list?</p>
+        <button id="confirmDelete">Yes</button>
+        <button id="cancelDelete">No</button>
+      </div>
+    </div>
+    
+    <!-- Context menu for list -->
+    <div id="contextMenu" class="context-menu">
+      <div id="deleteListOption">Delete List</div>
+    </div>
+
+    <div id="deleteTodoModal" class="modal">
+      <div class="modal-content">
+        <p>Are you sure you want to delete this todo?</p>
+        <button id="confirmDeleteTodo">Yes</button>
+        <button id="cancelDeleteTodo">No</button>
+      </div>
+    </div>
+
+    <div id="todoContextMenu" class="context-menu">
+      <div id="deleteTodoOption">
+        Delete Todo
+      </div>
+    </div>
     <script type="module" src="/main.js"></script>
   </body>
 </html>
