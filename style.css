@@ -8,6 +8,23 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.header {
+  display: flex;
+  align-items: center;
+}
+
+#left-corner-header-side {
+  width: 30%;
+}
+
+#right-side-header {
+  width: 70%
+}
+
+#search-bar {
+  width: 550px;
+}
+
 
 #container {
   display: flex;
@@ -23,6 +40,8 @@
 
 #todos {
   width: 40%;
+  height: 100vh;
+  overflow-y: auto;
 }
 
 #details {
@@ -108,4 +127,14 @@ button:hover {
 
 #desc-text-area {
   width: 90%;
+}
+
+.loading {
+  display: none;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  color: #333;
 }

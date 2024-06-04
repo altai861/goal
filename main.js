@@ -75,20 +75,30 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const logOut = async () => {
         try {
+            // Make a GET request to the logout endpoint on the server
             const response = await fetch(`${apiUrl}/auth/logout`, {
-                credentials: "include"
+                method: 'GET',
+                credentials: 'include', // Include cookies in the request if needed
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Add any additional headers if necessary
+                },
             });
-            const data = await response.json();
+    
             if (response.ok) {
-                console.log(data);
-                //window.location.reload();
+                // Successful logout
+                console.log('Logged out successfully');
+                // Perform any client-side cleanup or redirection as needed
             } else {
-                console.error("Logout failed: ", response.message);
+                // Handle unsuccessful logout (e.g., server error)
+                console.error('Logout failed:', response.statusText);
             }
         } catch (error) {
-            console.error("Error during logout: ", error);
+            // Handle network or other errors
+            console.error('Error during logout:', error);
         }
-    }
+    };
+    
 
     const fetchLists = async () => {
         try {
@@ -164,14 +174,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     const checkUserAuth = async () => {
+        document.getElementById('loading').style.display = "block"
         if (await fetchLists() && await fetchTodos()) {
             console.log(state.lists)
             console.log(state.todos)
             console.log("You are authenticated.");
+            document.getElementById('loading').style.display = "none"
             renderMainWindow();
             
         } else {
             console.log("You are not authenticated. Login");
+            document.getElementById('loading').style.display = "none"
             renderLogin();
         }
         
@@ -202,17 +215,34 @@ document.addEventListener("DOMContentLoaded", async () => {
         const header = document.createElement("div");
         header.classList.add("header")
 
+        const leftCornerDiv = document.createElement("div");
+        leftCornerDiv.id = "left-corner-header-side"
+
         //Logout button
         const logoutButton = document.createElement("button");
         logoutButton.textContent = "Гарах"
-        header.appendChild(logoutButton);
+        
         logoutButton.addEventListener("click", () => logOut());
 
         // Hi username text
         const hiUsername = document.createElement("h2");
         hiUsername.textContent = `За юу байна, хөөрхөнөө ${state.username}`
-        header.appendChild(hiUsername)
+        
+        leftCornerDiv.appendChild(logoutButton)
+        leftCornerDiv.appendChild(hiUsername)
 
+        header.appendChild(leftCornerDiv)
+
+        const rightSideDiv = document.createElement("div");
+        rightSideDiv.id = "right-side-header"
+
+        const searchBar = document.createElement("input");
+        searchBar.id = "search-bar"
+        searchBar.placeholder = "Хайх..."
+        
+        rightSideDiv.appendChild(searchBar)
+
+        header.appendChild(rightSideDiv)
 
         return header;
     }
