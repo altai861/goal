@@ -1,140 +1,50 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-.header {
+body, html {
+  background-color: hotpink;
+  font-family: "Poppins", sans-serif;
+  height: 100%;
+  margin: 0;
   display: flex;
+  justify-content: center;
   align-items: center;
 }
 
-#left-corner-header-side {
-  width: 30%;
-}
-
-#right-side-header {
-  width: 70%
-}
-
-#search-bar {
-  width: 550px;
+#auth-container {
+  background-color: honeydew;
+  padding: 20px 40px;
+  border-radius: 5px;
 }
 
 
-#container {
+#auth-container form {
+  text-align: center;
   display: flex;
-  justify-content:space-around;
-  text-align: center;
+  flex-direction: column;
 }
 
-#lists {
-  width: 30%;
-  max-height: 100vh;
-  overflow-y: auto;
-}
-
-#todos {
-  width: 40%;
-  height: 100vh;
-  overflow-y: auto;
-}
-
-#details {
-  width: 30%;
-}
-
-.single-list {
-  padding: 8px;
+#auth-container form input {
+  padding: 5px;
+  margin: 5px;
+  font-size: large;
   border-radius: 10px;
 }
 
-.single-list:hover {
-  background-color: aliceblue;
-}
-
-.selected {
-  background-color: aliceblue;
-}
-
-.single-todo {
-  border: 1px solid grey;
-  border-radius: 10px;
-  margin: 10px;
-}
-
-.single-todo:hover {
-  background-color: rgb(241, 227, 132);
-}
-
-
-/* Add styling for the modal */
-.modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.modal-content {
-  background-color: #fff;
-  width: 300px;
-  margin: 100px auto;
-  padding: 20px;
+#auth-container form button {
+  width: 100px;
   text-align: center;
-}
-
-/* Style for the custom context menu */
-.context-menu {
-  display: none;
-  position: absolute;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  padding: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-input {
-  padding: 10px;
-  margin-bottom: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-button {
-
-  background-color: #3498db;
-  color: #fff;
+  margin: 5px;
+  padding: 5px;
   border: none;
   border-radius: 4px;
+  background-color: hotpink;
+}
+
+#register-here {
+  color:rgb(67, 151, 184);
+}
+
+#register-here:hover {
+  color: skyblue;
   cursor: pointer;
-}
-
-button:hover {
-  background-color: #2980b9;
-}
-
-#title-text-area {
-  width: 90%;
-}
-
-#desc-text-area {
-  width: 90%;
-}
-
-.loading {
-  display: none;
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 20px;
-  color: #333;
 }
