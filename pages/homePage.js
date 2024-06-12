@@ -1,11 +1,12 @@
-import { fetchTodos } from "../api/todo_api";
+import { fetchGoals } from "../api/goal_api.js";
 import { renderAuthPage } from "./authPage";
+import '../styles/home_style.css'
 
 export async function renderHomepage() {
     
-    const todos = await fetchTodos();
-    console.log(todos);
-    document.getElementById("app").innerHTML = JSON.stringify(todos)
+    const goals = await fetchGoals();
+    console.log(goals);
+    document.getElementById("app").innerHTML = JSON.stringify(goals)
     
     
 }

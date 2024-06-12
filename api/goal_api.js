@@ -1,13 +1,22 @@
 import apiUrl from "../config/apiUrl";
-const API_URL = `${apiUrl}/todo` 
+const API_URL = `${apiUrl}/goal` 
+
+async function localDateFinder() {
+    let date = new Date();
+    let localDateString = date.toLocaleString()
+    let resultDateList = localDateString.split(",")[0].split("/");
+    let result = resultDateList[2] + "-" + (resultDateList[0].length === 2 ? resultDateList[0] : "0" + resultDateList[0]) + "-" + (resultDateList[1].length === 2 ? resultDateList[1] : "0" + resultDateList[1])
+    return result
+}
 
 const accessToken = localStorage.getItem("accessToken");
 
-export async function fetchTodos() {
+export async function fetchGoals() {
     if (!accessToken || accessToken === "") {
         throw new Error("Access token not found");
     }
-    const response = await fetch(API_URL, {
+    let todayDate = await localDateFinder();
+    const response = await fetch(`${API_URL}?date=${todayDate}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -16,12 +25,12 @@ export async function fetchTodos() {
     });
     if (!response.ok) {
         localStorage.clear();
-        throw new Error("Failed to fetch todos");
+        throw new Error("Failed to fetch goals");
     }
     return await response.json();
 }
 
-export async function createTodo(newTodoObject) {
+export async function createGoal(newGoalObject) {
     if (!accessToken || accessToken === "") {
         throw new Error("Access token not found");
     }
@@ -31,7 +40,7 @@ export async function createTodo(newTodoObject) {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${accessToken}`
         },
-        body: JSON.stringify(newTodoObject)
+        body: JSON.stringify(newGoalObject)
     })
     if (!response.ok) {
         throw new Error("Failed to create todo");

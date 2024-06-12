@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 body, html {
-  background-color: hotpink;
+  background-color:orange;
   font-family: "Poppins", sans-serif;
   height: 100%;
   margin: 0;
@@ -38,10 +38,20 @@ body, html {
   border: none;
   border-radius: 4px;
   background-color: hotpink;
+  color: white;
+  font-size: large;
+  font-weight: 500;
+  transition: background-color 0.3s, color 0.3s
+}
+
+#auth-container form button:hover {
+  background-color: #F9E;
+  color: black
 }
 
 #register-here {
   color:rgb(67, 151, 184);
+  transition: color 0.3s;
 }
 
 #register-here:hover {
