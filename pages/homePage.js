@@ -1,6 +1,5 @@
 import { fetchGoals } from "../api/goal_api.js";
 import { renderAuthPage } from "./authPage";
-import '../styles/home_style.css'
 
 export async function renderHomepage() {
     

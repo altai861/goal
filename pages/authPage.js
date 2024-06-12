@@ -1,4 +1,3 @@
-import "../styles/auth_style.css"
 import { login, register } from "../api/auth_api";
 import { renderHomepage } from "./homePage";
 
