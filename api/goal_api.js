@@ -1,7 +1,7 @@
 import apiUrl from "../config/apiUrl";
 const API_URL = `${apiUrl}/goal` 
 
-async function localDateFinder() {
+export async function localDateFinder() {
     let date = new Date();
     let localDateString = date.toLocaleString()
     let resultDateList = localDateString.split(",")[0].split("/");
@@ -16,6 +16,7 @@ export async function fetchGoals() {
         throw new Error("Access token not found");
     }
     let todayDate = await localDateFinder();
+    //console.log(todayDate)
     const response = await fetch(`${API_URL}?date=${todayDate}`, {
         method: "GET",
         headers: {
@@ -30,7 +31,7 @@ export async function fetchGoals() {
     return await response.json();
 }
 
-export async function createGoal(newGoalObject) {
+export async function createGoalAPI(newGoalObject) {
     if (!accessToken || accessToken === "") {
         throw new Error("Access token not found");
     }
@@ -49,7 +50,7 @@ export async function createGoal(newGoalObject) {
     return await response.json();
 }
 
-export async function updateTodo(id, updateObject) {
+export async function updateGoal(id, updateObject) {
     if (!accessToken || accessToken === "") {
         throw new Error("Access token not found");
     }
@@ -69,19 +70,20 @@ export async function updateTodo(id, updateObject) {
     return await response.json();
 }
 
-export async function deleteTodo(id) {
+export async function deleteGoal(id) {
     if (!accessToken || accessToken === "") {
         throw new Error("Access token not found");
     }
-    const response = await fetch(`${API_URL}/${id}`, {
+    const response = await fetch(`${API_URL}`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${accessToken}`
-        }
+        },
+        body: JSON.stringify({ goalId: id })
     });
     if (!response.ok) {
-        throw new Error("Failed to delete todo");
+        throw new Error("Failed to delete goal");
     }
 
     return await response.json();

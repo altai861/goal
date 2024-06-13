@@ -36,7 +36,7 @@ export async function renderAuthPage() {
         e.preventDefault();
         try {
             const loginResponse = await login(usernameInput.value, passwordInput.value);
-            console.log(loginResponse)
+            //console.log(loginResponse)
             window.location.reload();
         } catch (error) {
             alert(error.message);
