@@ -1,4 +1,4 @@
-import { fetchGoals, localDateFinder, createGoalAPI, deleteGoal } from "../api/goal_api.js";
+import { fetchGoals, localDateFinder, createGoalAPI, deleteGoal, updateGoal } from "../api/goal_api.js";
 import { renderAuthPage } from "./authPage";
 
 {/* <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -185,7 +185,7 @@ export async function renderHomepage() {
                     <textarea class="form-control" aria-label="With textarea" id="goal-title-textarea"></textarea>
                 </div>
                 <div class="input-group mb-3">
-                    <label class="input-group-text" for="inputGroupSelect01">Options</label>
+                    <label class="input-group-text" for="inputGroupSelect01">Span</label>
                     <select class="form-select" id="span-selector">
                         <option selected>Choose span</option>
                         <option value="1">Day</option>
@@ -223,12 +223,39 @@ export async function renderHomepage() {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="single-goal-modal-body">
-                ...
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Your Goal</span>
+                    <textarea class="form-control" aria-label="With textarea" id="goal-title-field"></textarea>
+                </div>
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="inputGroupSelect01">Span</label>
+                    <select class="form-select" id="span-selector-field">
+                        <option selected>Choose span</option>
+                        <option value="1">Day</option>
+                        <option value="2">Week</option>
+                        <option value="3">Month</option>
+                        <option value="4">Season</option>
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="inputGroupSelect01">Date</label>
+                    <input type="date" id="goal-date-field">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-text">
+                        <label for="goal-completed-field" class="mx-2">Completed</label>
+                        <input class="form-check-input mt-0" type="checkbox" value="" id="goal-completed-field">
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Description</span>
+                    <textarea class="form-control" aria-label="With textarea" id="goal-description-field"></textarea>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" id="delete-button">Delete</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="save-change-button">Save changes</button>
+                <button type="button" class="btn btn-primary" id="save-changes-button">Save changes</button>
             </div>
             </div>
         </div>
@@ -250,7 +277,7 @@ export async function renderHomepage() {
 
     const logoutButton = document.getElementById("logout-button");
     logoutButton.addEventListener("click", () => {
-        localStorage.removeItem("accessToken");
+        localStorage.clear();
         window.location.reload();
     })
 
@@ -304,13 +331,38 @@ export async function renderHomepage() {
             }
 
             const goal = findGoalById(id);
-            document.getElementById('single-goal-modal-body').innerHTML = goal.goalTitle
+            const goalTitleField = document.getElementById("goal-title-field");
+            const goalTypeField = document.getElementById("span-selector-field");
+            const goalDateField = document.getElementById("goal-date-field");
+            const goalCompletedField = document.getElementById("goal-completed-field");
+            const goalDescriptionField = document.getElementById("goal-description-field");
+            goalTitleField.value = goal.goalTitle;
+            goalTypeField.value = goal.type === "D" ? "1" : goal.type === "W" ? "2" : goal.type === "M" ? "3" : "4";
+            goalDateField.value = goal.date;
+            goalCompletedField.checked = goal.completed === true ? "true" : ""
+            goalDescriptionField.value = goal.description;
 
             const deleteButton = document.getElementById("delete-button");
             if (deleteButton) {
                 deleteButton.addEventListener("click", async () => {
                     console.log("delete button clicked", id);
                     const response = await deleteGoal(id);
+                    console.log(response);
+                    window.location.reload();
+                })
+            }
+
+            const saveChangesButton = document.getElementById("save-changes-button");
+            if (saveChangesButton) {
+                saveChangesButton.addEventListener("click", async () => {
+                    const updateGoalObject = {
+                        goalTitle: goalTitleField.value,
+                        type: goalTypeField.value === "1" ? "D" : goalTypeField.value === "2" ? "W" : goalTypeField.value === "3" ? "M" : "S",
+                        date: goalDateField.value,
+                        completed: goalCompletedField.checked ? true : false,
+                        description: goalDescriptionField.value
+                    }
+                    const response = await updateGoal(id, updateGoalObject);
                     console.log(response);
                     window.location.reload();
                 })

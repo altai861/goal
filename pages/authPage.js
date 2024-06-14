@@ -6,55 +6,40 @@ export async function renderAuthPage() {
     app.innerHTML = ""
     const main = document.createElement("main");
     main.id = "auth-container"
-
-    const title = document.createElement("h1");
-
-    const loginForm = document.createElement("form");
-    const usernameInput = document.createElement("input");
-    usernameInput.type = "text"
-    usernameInput.id = "username-input"
-    usernameInput.placeholder = "username"
-
-    const passwordInput = document.createElement("input");
-    passwordInput.type = "password"
-    passwordInput.id = "password-input"
-    passwordInput.placeholder = "password"
-
-    usernameInput.required = true;
-    passwordInput.required = true;
-
-    const loginButton = document.createElement("button");
-    loginButton.type = "submit"
-    loginButton.textContent = "Login";
-    loginButton.id = "login-button";
-
-    loginForm.appendChild(usernameInput);
-    loginForm.appendChild(passwordInput);
-    loginForm.appendChild(loginButton);
-
-    loginForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        try {
-            const loginResponse = await login(usernameInput.value, passwordInput.value);
-            //console.log(loginResponse)
-            window.location.reload();
-        } catch (error) {
-            alert(error.message);
-        }
-    })
-
-    const p = document.createElement("p")
-    p.innerHTML = "Don't have an account, register " + "<a id='register-here'>here</a>"
-    title.innerHTML = "Login";
-
-    main.appendChild(title)
-    main.appendChild(loginForm)
-    main.appendChild(p)
-
+    main.className = "container-fluid d-flex justify-content-center align-items-center flex-column mt-2"
+   main.innerHTML = `
+   <h2>Login</h2>
+    <div class="form-floating mb-3">
+        <input id="username-input" type="text" class="form-control" id="floatingInput" placeholder="username">
+        <label for="floatingInput">Username</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input id="password-input" type="password" class="form-control" id="floatingPassword" placeholder="Password">
+        <label for="floatingPassword">Password</label>
+    </div>
+    <button class="btn btn-primary" id="login-button">Login</button>
+    <p>Don't have an account, register <a id="register-here" style="cursor:pointer; color: blue;">here</a></p>
+   `
     app.appendChild(main);
 
-    document.getElementById("register-here").addEventListener("click", () => {
+
+    const registerHereA = document.getElementById("register-here");
+    registerHereA.addEventListener("click", () => {
         renderRegister();
+    })
+
+    const loginButton = document.getElementById("login-button");
+    loginButton.addEventListener("click", async () => {
+        const username = document.getElementById("username-input").value;
+        const password = document.getElementById("password-input").value;
+
+        if (!username || !password) {
+            alert("Username and password are required");
+        } else {
+            const response = await login(username, password);
+            //console.log(response)
+            window.location.reload();
+        }
     })
 
 }
@@ -64,66 +49,49 @@ export default function renderRegister() {
     app.innerHTML = ""
     const main = document.createElement("main");
     main.id = "auth-container"
-
-    const title = document.createElement("h1");
-
-    const registerForm = document.createElement("form");
-    const usernameInput = document.createElement("input");
-    usernameInput.type = "text"
-    usernameInput.id = "username-input"
-    usernameInput.placeholder = "username"
-
-    const passwordInput = document.createElement("input");
-    passwordInput.type = "password"
-    passwordInput.id = "password-input"
-    passwordInput.placeholder = "password"
-    const passwordConfirmInput = document.createElement("input");
-    passwordConfirmInput.type = "password"
-    passwordConfirmInput.id = "password-input-confirm"
-    passwordConfirmInput.placeholder = "confirm password"
-
-    usernameInput.required = true;
-    passwordInput.required = true;
-    passwordConfirmInput.required = true;
-
-    const registerButton = document.createElement("button");
-    registerButton.type = "submit"
-    registerButton.textContent = "Register";
-    registerButton.id = "login-button";
-
-    registerForm.appendChild(usernameInput);
-    registerForm.appendChild(passwordInput);
-    registerForm.appendChild(passwordConfirmInput);
-    
-    registerForm.appendChild(registerButton);
-
-    registerForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        try {
-            if (passwordConfirmInput.value !== passwordInput.value) {
-                alert("Password does not match"); return;
-            }
-            const registerResponse = await register(usernameInput.value, passwordInput.value);
-            console.log(registerResponse)
-            alert("Registration successful");
-            window.location.reload();
-        } catch (error) {
-            alert(error.message);
-        }
-    })
-
-    const p = document.createElement("p")
-    p.innerHTML = "Have an account, login " + "<a id='register-here'>here</a>"
-    title.innerHTML = "Register";
-
-    main.appendChild(title)
-    main.appendChild(registerForm)
-    main.appendChild(p)
-
+    main.className = "container-fluid d-flex justify-content-center align-items-center flex-column mt-2"
+   main.innerHTML = `
+   <h2>Register</h2>
+    <div class="form-floating mb-3">
+        <input id="username-input" type="text" class="form-control" id="floatingInput" placeholder="username">
+        <label for="floatingInput">Username</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input id="password-input" type="password" class="form-control" id="floatingPassword" placeholder="Password">
+        <label for="floatingPassword">Password</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input id="confirm-password-input" type="password" class="form-control" id="floatingPassword" placeholder="Password">
+        <label for="floatingPassword">Confirm password</label>
+    </div>
+    <button class="btn btn-primary" id="register-button">Register</button>
+    <p>Have an account, login <a id="login-here" style="cursor:pointer; color: blue;">here</a></p>
+   `
     app.appendChild(main);
 
-    document.getElementById("register-here").addEventListener("click", () => {
-        renderAuthPage();
+
+    const registerHereA = document.getElementById("login-here");
+    registerHereA.addEventListener("click", () => {
+        renderLogin();
+    })
+
+    const registerButton = document.getElementById("register-button");
+    registerButton.addEventListener("click", async () => {
+        const username = document.getElementById("username-input").value;
+        const password = document.getElementById("password-input").value;
+        const confirmPassword = document.getElementById("confirm-password-input").value;
+
+        if (!username || !password || !confirmPassword) {
+            alert("Username, password and confirmed password are required");
+        } else {
+            if (password !== confirmPassword) {
+                alert("Confirmed password does not match");
+            } else {
+                const response = await register(username, password);
+                //console.log(response)
+                window.location.reload();
+            }
+        }
     })
 
 }

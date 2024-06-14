@@ -61,7 +61,7 @@ export async function updateGoal(id, updateObject) {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${accessToken}`
         },
-        body: JSON.stringify(updates)
+        body: JSON.stringify(updateObject)
     });
     if (!response.ok) {
         throw new Error("Failed to update todo");
